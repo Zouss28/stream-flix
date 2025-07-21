@@ -5,7 +5,7 @@ const next = require('next');
 const app = express();
 app.use(cors());
 app.use(express.json());
-const nextApp = next({ dev: true });
+const nextApp = next({ dev: false });
 const handle = nextApp.getRequestHandler();
 const tmdbApi = require('./routes/tmdbApi');
 
@@ -20,8 +20,8 @@ nextApp.prepare().then(() => {
       return handle(req, res);
   });
 
-  const PORT = process.env.PORT || 3001;
-  app.listen(PORT, () => {
-      console.log(`> Ready on http://localhost:${PORT}`);
+  const port = process.env.PORT || 3000;
+  app.listen(port, '0.0.0.0', () => {
+    console.log(`Server ready on http://0.0.0.0:${port}`);
   });
 });
