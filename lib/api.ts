@@ -49,31 +49,31 @@ const mockTVShows: TVShow[] = [
 
 // API functions
 export const fetchTrendingMovies = async (): Promise<Movie[]> => {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/trending-movies`);
+  const response = await fetch(`/api/trending-movies`);
   const data = await response.json();
   return data;
 }
 
 export const fetchTrendingTV = async (): Promise<TVShow[]> => {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/trending-tv`);
+  const response = await fetch(`/api/trending-tv`);
   const data = await response.json();
   return data;
 }
 
 export const fetchLatestReleases = async (): Promise<Movie[]> => {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/upcoming-movies`);
+  const response = await fetch(`/api/upcoming-movies`);
   const data = await response.json();
   return data;
 }
 
 export const fetchMovieDetails = async (id: string): Promise<Movie | null> => {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/movie/${id}`);
+  const response = await fetch(`/api/movie/${id}`);
   const data = await response.json();
   return data;
 }
 
 export const fetchTVDetails = async (id: string): Promise<TVShow | null> => {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/tv/${id}`);
+  const response = await fetch(`/api/tv/${id}`);
   const data = await response.json();
   return data;
 }
@@ -82,7 +82,7 @@ export const searchMovies = async (
   query: string,
   options: { page?: number; limit?: number } = {},
 ): Promise<PaginatedResponse<Movie>> => {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/search-movies/${query}/${options.page}`)
+  const response = await fetch(`/api/search-movies/${query}/${options.page}`)
   const data = await response.json();
 
   const total = data[data.length - 1]
@@ -100,7 +100,7 @@ export const searchTV = async (
   query: string,
   options: { page?: number; limit?: number } = {},
 ): Promise<PaginatedResponse<TVShow>> => {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/search-tv/${query}/${options.page}`)
+  const response = await fetch(`/api/search-tv/${query}/${options.page}`)
   const data = await response.json();
 
   const total = data[data.length - 1]
@@ -149,7 +149,7 @@ interface FetchOptions {
 }
 
 export const fetchMovies = async (options: FetchOptions = {}) => {
-  let response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/movies-list/${options.page}`)
+  let response = await fetch(`/api/movies-list/${options.page}`)
   let filteredMovies = await response.json()
 
   // Apply search filter
@@ -195,7 +195,7 @@ export const fetchMovies = async (options: FetchOptions = {}) => {
 }
 
 export const fetchTVShows = async (options: FetchOptions = {}) => {
-  let response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/tv-list/${options.page}`)
+  let response = await fetch(`/api/tv-list/${options.page}`)
   let filteredShows = await response.json()
 
   // Apply search filter
