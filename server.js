@@ -5,7 +5,7 @@ const next = require('next');
 const app = express();
 app.use(cors());
 app.use(express.json());
-const nextApp = next({ dev: true });
+const nextApp = next({ dev: false });
 const handle = nextApp.getRequestHandler();
 const tmdbApi = require('./routes/tmdbApi');
 
