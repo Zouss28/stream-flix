@@ -5,7 +5,7 @@ const next = require('next');
 const app = express();
 app.use(cors());
 app.use(express.json());
-const nextApp = next({ dev: false });
+const nextApp = next({ dev: true });
 const handle = nextApp.getRequestHandler();
 const tmdbApi = require('./routes/tmdbApi');
 
@@ -14,6 +14,15 @@ nextApp.prepare().then(() => {
 
   // Example API route
   app.use('/api', tmdbApi);
+  const options = {
+    method: 'GET',
+    headers: {
+      accept: 'application/json'
+    },
+    params: {
+      api_key: process.env.TMDB_API_KEY
+    }
+  };
 
   // Serve Next.js pages for all other requests
   app.all('*splat', (req, res) => {

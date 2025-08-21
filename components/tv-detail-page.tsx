@@ -146,7 +146,14 @@ export function TVDetailPage({ id }: TVDetailPageProps) {
             <Card>
               <CardContent className="p-6">
                 <h3 className="text-lg font-semibold mb-3">Seasons</h3>
-                <div className="flex space-x-2">
+                <div
+                  className="flex flex-wrap gap-2 max-w-full overflow-x-auto"
+                  style={{
+                    maxWidth: "100%",
+                    overflowX: "auto",
+                    flexWrap: "wrap",
+                  }}
+                >
                   {Array.from({ length: tvShow.seasons }).map((_, i) => (
                     <Button
                       key={i + 1}
@@ -155,6 +162,7 @@ export function TVDetailPage({ id }: TVDetailPageProps) {
                         setSelectedSeason(i + 1)
                         setSelectedEpisode(1) // Reset episode when season changes
                       }}
+                      className="whitespace-nowrap"
                     >
                       Season {i + 1}
                     </Button>

@@ -2,19 +2,12 @@ const express = require('express');
 const router = express.Router();
 const dotenv = require('dotenv');
 dotenv.config();
-const options = {
-    method: 'GET',
-    headers: {
-      accept: 'application/json',
-      Authorization: 'Bearer ' + process.env.TMDB_API_KEY
-    }
-  };
 
 //GET trending movies from TMDB
 router.get('/trending-movies', async (req, res) => {
     try {
     
-    const response = await fetch('https://api.themoviedb.org/3/trending/movie/day?language=en-US', options);
+    const response = await fetch('https://api.themoviedb.org/3/trending/movie/day?language=en-US&api_key=' + process.env.TMDB_API_KEY);
     const data = await response.json();
     const movies = data.results.map(movie => ({
       id: movie.id,
@@ -35,7 +28,7 @@ router.get('/trending-movies', async (req, res) => {
   //GET trending tv shows from TMDB
   router.get('/trending-tv', async (req, res) => {
     try {
-      const response = await fetch('https://api.themoviedb.org/3/trending/tv/day?language=en-US', options);
+      const response = await fetch('https://api.themoviedb.org/3/trending/tv/day?language=en-US&api_key=' + process.env.TMDB_API_KEY);
       const data = await response.json();
       const tvShows = data.results.map(tvShow => ({
         id: tvShow.id,
@@ -60,7 +53,7 @@ router.get('/trending-movies', async (req, res) => {
   //GET latest movies from TMDB
   router.get('/upcoming-movies', async (req, res) => {
     try {
-      const response = await fetch('https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=1', options);
+      const response = await fetch('https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=1&api_key=' + process.env.TMDB_API_KEY);
       const data = await response.json();
       const movies = data.results.map(movie => ({
         id: movie.id,
@@ -79,7 +72,7 @@ router.get('/trending-movies', async (req, res) => {
 
 router.get('/movie/:id', async (req, res) => {
   try {
-    const response = await fetch(`https://api.themoviedb.org/3/movie/${req.params.id}?language=en-US`, options);
+    const response = await fetch(`https://api.themoviedb.org/3/movie/${req.params.id}?language=en-US&api_key=` + process.env.TMDB_API_KEY);
     const data = await response.json();
 
     const movie = {
@@ -102,13 +95,13 @@ router.get('/movie/:id', async (req, res) => {
 router.get('/tv/:id', async (req, res) => {
   try {
     // Fetch main TV show details
-    const response = await fetch(`https://api.themoviedb.org/3/tv/${req.params.id}?language=en-US`, options);
+    const response = await fetch(`https://api.themoviedb.org/3/tv/${req.params.id}?language=en-US&api_key=` + process.env.TMDB_API_KEY);
     const data = await response.json();
 
     // Fetch all seasons' episodes
     const seasons = [];
     for (let seasonNum = 1; seasonNum <= data.number_of_seasons; seasonNum++) {
-      const seasonRes = await fetch(`https://api.themoviedb.org/3/tv/${req.params.id}/season/${seasonNum}?language=en-US`, options);
+      const seasonRes = await fetch(`https://api.themoviedb.org/3/tv/${req.params.id}/season/${seasonNum}?language=en-US&api_key=` + process.env.TMDB_API_KEY);
       const seasonData = await seasonRes.json();
       if (seasonData.episodes && Array.isArray(seasonData.episodes)) {
         seasonData.episodes.forEach(episode => {
@@ -142,7 +135,7 @@ router.get('/tv/:id', async (req, res) => {
 //Get all movies from TMDB
 router.get('/movies-list/:page', async (req, res) => {
   try {
-    const response = await fetch(`https://api.themoviedb.org/3/movie/popular?language=en-US&page=${req.params.page}`, options);
+    const response = await fetch(`https://api.themoviedb.org/3/movie/popular?language=en-US&page=${req.params.page}&api_key=` + process.env.TMDB_API_KEY);
     const data = await response.json();
     const movies = data.results.map(movie => ({
       id: movie.id, 
@@ -163,7 +156,7 @@ router.get('/movies-list/:page', async (req, res) => {
 //Get all tv shows from TMDB
 router.get('/tv-list/:page', async (req, res) => {
   try {
-    const response = await fetch(`https://api.themoviedb.org/3/tv/popular?language=en-US&page=${req.params.page}`, options);
+    const response = await fetch(`https://api.themoviedb.org/3/tv/popular?language=en-US&page=${req.params.page}&api_key=` + process.env.TMDB_API_KEY);
     const data = await response.json();
     const tvShows = data.results.map(tvShow => ({
       id: tvShow.id,
@@ -183,7 +176,7 @@ router.get('/tv-list/:page', async (req, res) => {
 
 router.get('/search-movies/:query/:page', async (req, res) => {
   try {
-    const response = await fetch(`https://api.themoviedb.org/3/search/movie?query=${req.params.query}&include_adult=false&language=en-US&page=${req.params.page}`, options );
+    const response = await fetch(`https://api.themoviedb.org/3/search/movie?query=${req.params.query}&include_adult=false&language=en-US&page=${req.params.page}&api_key=` + process.env.TMDB_API_KEY );
     const data = await response.json();
     const results = data.results.map(movie => ({
       id: movie.id,
@@ -203,7 +196,7 @@ router.get('/search-movies/:query/:page', async (req, res) => {
 
 router.get('/search-tv/:query/:page', async (req, res) => {
   try {
-    const response = await fetch(`https://api.themoviedb.org/3/search/tv?query=${req.params.query}&include_adult=false&language=en-US&page=${req.params.page}`, options);
+    const response = await fetch(`https://api.themoviedb.org/3/search/tv?query=${req.params.query}&include_adult=false&language=en-US&page=${req.params.page}&api_key=` + process.env.TMDB_API_KEY);
     const data = await response.json();
     const results = data.results.map(tvShow => ({
       id: tvShow.id,
